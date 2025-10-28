@@ -22,12 +22,24 @@ public class CharacterAnimator : MonoBehaviour
         BVHParser parser = new BVHParser();
         data = parser.Parse(BVHFile);
         CreateJoint(data.rootJoint, Vector3.zero);
-        Matrix4x4 mat = RotateTowardsVector(new Vector3(2, 5, -8));
-        Vector3 res = mat.MultiplyVector(Vector3.up);
-        print(mat);
-        print(res.x);
-        print(res.y);
-        print(res.z);
+        
+        if (targetObject != null)
+        {
+            // Get original transform components
+            Vector3 pos = targetObject.transform.position;
+            Vector3 scale = targetObject.transform.localScale;
+
+            // Build matrices
+            Matrix4x4 T = MatrixUtils.Translate(pos);
+            Matrix4x4 S = MatrixUtils.Scale(scale);
+            Matrix4x4 R = RotateTowardsVector(new Vector3(2, 5, -8));
+
+            // Combine them (order matters: first scale, then rotate, then translate)
+            Matrix4x4 finalMatrix = T * R * S;
+
+            // Apply transform through your matrix util
+            MatrixUtils.ApplyTransform(targetObject, finalMatrix);
+        }
     }
 
     // Returns a Matrix4x4 representing a rotation aligning the up direction of an object with the given v
