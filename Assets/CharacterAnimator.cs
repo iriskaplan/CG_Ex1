@@ -14,6 +14,7 @@ public class CharacterAnimator : MonoBehaviour
     public float t = 0; // Value used to interpolate the animation between frames
     public float[] currFrameData; // BVH channel data corresponding to the current keyframe
     public float[] nextFrameData; // BVH vhannel data corresponding to the next keyframe
+    public GameObject targetObject;
 
     // Start is called before the first frame update
     void Start()

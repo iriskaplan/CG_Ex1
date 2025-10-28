@@ -120,6 +120,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &207708603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5530537171892804166, guid: 58efc9cebbb78a643884edb4c87f36d5,
+    type: 3}
+  m_PrefabInstance: {fileID: 1934132696}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &489986441 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6871953536217776647, guid: 58efc9cebbb78a643884edb4c87f36d5,
@@ -412,6 +418,7 @@ MonoBehaviour:
   t: 0
   currFrameData: []
   nextFrameData: []
+  targetObject: {fileID: 207708603}
 --- !u!4 &1849014541
 Transform:
   m_ObjectHideFlags: 0
