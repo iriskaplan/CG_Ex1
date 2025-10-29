@@ -27,11 +27,14 @@ public class CharacterAnimator : MonoBehaviour
         print(res.x);
         print(res.y);
         print(res.z);
+
+        Debug.DrawLine(contact.point, contact.point + contact.normal, Color.green, 2, false);
     }
 
     // Returns a Matrix4x4 representing a rotation aligning the up direction of an object with the given v
     public Matrix4x4 RotateTowardsVector(Vector3 v)
     {
+        // Incorrect transformation
         Vector3 v_dir = v.normalized;
         float theta_z = Mathf.Atan2(v_dir.x, v_dir.y);
         float theta_x = -1 * 
@@ -48,8 +51,15 @@ public class CharacterAnimator : MonoBehaviour
     // Creates a Cylinder GameObject between two given points in 3D space
     public GameObject CreateCylinderBetweenPoints(Vector3 p1, Vector3 p2, float diameter)
     {
-        // Your code here
-        return null;
+        GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+        // create M = T R S
+        // T should traslate from origin to p1
+        Matrix4x4 T = MatrixUtils.Translate(p1);
+        Matrix4x4 R = RotateTowardsVector(p1 - p2);
+        Matrix4x4 S = MatrixUtils.Scale(diameter);
+        Matrix4x4 M = T * R * S;
+        MatrixUtils.ApplyTransform(cylinder, M);
+        return cylinder;
     }
 
     // Creates a GameObject representing a given BVHJoint and recursively creates GameObjects for it's child joints
