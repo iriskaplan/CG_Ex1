@@ -47,10 +47,10 @@ public class CharacterAnimator : MonoBehaviour
     {
         GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         // create M = T R S
-        // T should traslate from origin to p1
-        Matrix4x4 T = MatrixUtils.Translate(p1);
+        Matrix4x4 T = MatrixUtils.Translate((p1 + p2)/2);
         Matrix4x4 R = RotateTowardsVector(p1 - p2);
-        Matrix4x4 S = MatrixUtils.Scale(diameter);
+        Vector3 s = new Vector3(diameter, (p1 - p2).magnitude * 0.5f, diameter);
+        Matrix4x4 S = MatrixUtils.Scale(s);
         Matrix4x4 M = T * R * S;
         MatrixUtils.ApplyTransform(cylinder, M);
         return cylinder;
@@ -80,10 +80,14 @@ public class CharacterAnimator : MonoBehaviour
         {
             foreach (BVHJoint child in joint.children)
             {
+                float diameter = 0.6f;
+                Vector3 childPosition = jointPosition + child.offset;
+                GameObject bone = CreateCylinderBetweenPoints(jointPosition, childPosition, diameter);
+                bone.transform.parent = joint.gameObject.transform;
                 CreateJoint(child, jointPosition);
             }
-
         }
+
         return joint.gameObject;
     }
 
