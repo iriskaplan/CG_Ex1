@@ -34,18 +34,12 @@ public class CharacterAnimator : MonoBehaviour
     // Returns a Matrix4x4 representing a rotation aligning the up direction of an object with the given v
     public Matrix4x4 RotateTowardsVector(Vector3 v)
     {
-        // Incorrect transformation
-        Vector3 v_dir = v.normalized;
-        float theta_z = Mathf.Atan2(v_dir.x, v_dir.y);
-        float theta_x = -1 * 
-            (Mathf.Atan2(v_dir.z, Mathf.Sqrt(v_dir.y * v_dir.y + v_dir.x * v_dir.x)));
-
-        float deg_z = -Mathf.Rad2Deg * theta_z;
-        float deg_x = -Mathf.Rad2Deg * theta_x;
-        Matrix4x4 r_z = MatrixUtils.RotateX(deg_z);
-        Matrix4x4 r_x = MatrixUtils.RotateZ(deg_x);
-        // Matrix4x4 r = r_x.MultiplyVector(v_dir);
-        return r_x * r_z;
+        v.Normalize();
+        float angleZ = 90 - (Mathf.Rad2Deg * Mathf.Atan2(v.y, v.x));
+        Matrix4x4 Rx = MatrixUtils.RotateZ(-angleZ);
+        float angleX = Mathf.Rad2Deg * Mathf.Atan2(v.z, Mathf.Sqrt(v.x*v.x + v.y*v.y));
+        Matrix4x4 Rz = MatrixUtils.RotateX(angleX);
+        return Rx * Rz;
     }
 
     // Creates a Cylinder GameObject between two given points in 3D space
